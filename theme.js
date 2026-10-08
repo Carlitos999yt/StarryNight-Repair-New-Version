@@ -52,10 +52,11 @@ waitForElement(['.Root__top-container'], ([topContainer]) => {
       star.style.zIndex = '-1';
       star.style.borderRadius = '50%';
 
-      if (Math.random() < 0.2) {
+      if (Math.random() < 0.25) {
+        star.style.boxShadow = `0 0 5px 1px ${starColor}`;
         star.style.setProperty(
           'animation',
-          `twinkle${Math.floor(Math.random() * 4) + 1} 5s infinite`,
+          `twinkle${Math.floor(Math.random() * 4) + 1} ${Math.floor(Math.random() * 4) + 3}s infinite ease-in-out`,
           'important'
         );
       }
@@ -116,20 +117,22 @@ waitForElement(['.Root__top-container'], ([topContainer]) => {
   const setupResizeObserver = () => {
     const container = document.querySelector('.Root__top-container');
     if (!container) return;
-    const rightSidebarSlot = [...container.children].find((el) => {
-      try {
-        return getComputedStyle(el).gridArea.includes('right-sidebar');
-      } catch (e) {
-        return false;
-      }
-    });
+    const rightSidebarSlot = document.querySelector('.Root__right-sidebar') ||
+      [...container.children].find((el) => {
+        try {
+          return getComputedStyle(el).gridArea.includes('right-sidebar');
+        } catch (e) {
+          return false;
+        }
+      });
 
     if (rightSidebarSlot) {
       let rafPending = false;
+      let latestWidth = -1;
       let lastWidth = -1;
 
       const updateWidth = (w) => {
-        if (w === lastWidth) return;
+        if (w === lastWidth || Math.abs(w - lastWidth) < 2) return;
         lastWidth = w;
 
         // When right sidebar is hidden or collapsed (< 200px)
@@ -143,24 +146,16 @@ waitForElement(['.Root__top-container'], ([topContainer]) => {
       };
 
       const ro = new ResizeObserver(([entry]) => {
-        const w = Math.round(entry.contentRect.width);
+        latestWidth = Math.round(entry.contentRect.width);
         if (!rafPending) {
           rafPending = true;
           requestAnimationFrame(() => {
             rafPending = false;
-            updateWidth(w);
+            updateWidth(latestWidth);
           });
         }
       });
       ro.observe(rightSidebarSlot);
-
-      document.addEventListener('click', () => {
-        setTimeout(() => {
-          if (rightSidebarSlot) {
-            updateWidth(Math.round(rightSidebarSlot.offsetWidth));
-          }
-        }, 150);
-      });
     } else {
       setTimeout(setupResizeObserver, 500);
     }

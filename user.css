@@ -304,6 +304,20 @@ body.starrynight-sidebar-collapsed .Root__top-container,
   left: 0;
   background-color: transparent;
   overflow: hidden;
+  contain: strict;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.starrynight-bg-container div {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.main-view-container {
+  contain: paint;
 }
 
 [data-testid="now-playing-bar"] {
@@ -377,6 +391,9 @@ button[data-testid="cover-art-button"] {
   object-fit: cover !important;
   animation: spin 25s linear infinite;
   animation-play-state: paused;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
   box-shadow: 0 0 10px 3px var(--spice-star-glow, #ffffff), 0 0 4px 1px rgba(255, 255, 255, 0.4) !important;
 }
 
@@ -449,98 +466,60 @@ body.starrynight-is-playing [data-testid="now-playing-bar"] [data-testid="cover-
   outline: none !important;
 }
 
+/* GPU-Accelerated Twinkling Keyframes (No CPU box-shadow reflows) */
 @keyframes twinkle1 {
-  0% {
-    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  0%, 100% {
+    opacity: 0.95;
+    transform: scale(1) translateZ(0);
   }
-  20% {
-    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
-  }
-  40% {
-    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
-  }
-  60% {
-    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
-  }
-  80% {
-    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
-  }
-  100% {
-    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  50% {
+    opacity: 0.2;
+    transform: scale(0.65) translateZ(0);
   }
 }
 
 @keyframes twinkle2 {
-  0% {
-    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  0%, 100% {
+    opacity: 0.25;
+    transform: scale(0.6) translateZ(0);
   }
-  20% {
-    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
-  }
-  40% {
-    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
-  }
-  60% {
-    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
-  }
-  80% {
-    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
-  }
-  100% {
-    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  50% {
+    opacity: 1;
+    transform: scale(1.15) translateZ(0);
   }
 }
 
 @keyframes twinkle3 {
-  0% {
-    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
-  }
-  20% {
-    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  0%, 100% {
+    opacity: 0.85;
+    transform: scale(1) translateZ(0);
   }
   40% {
-    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
-  }
-  60% {
-    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
-  }
-  80% {
-    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
-  }
-  100% {
-    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+    opacity: 0.15;
+    transform: scale(0.5) translateZ(0);
   }
 }
 
 @keyframes twinkle4 {
-  0% {
-    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
-  }
-  20% {
-    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
-  }
-  40% {
-    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(0.55) translateZ(0);
   }
   60% {
-    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
-  }
-  80% {
-    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
-  }
-  100% {
-    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+    opacity: 0.95;
+    transform: scale(1.2) translateZ(0);
   }
 }
 
 @keyframes spin {
   from {
-    transform: rotate(0deg);
+    transform: rotate(0deg) translateZ(0);
   }
   to {
-    transform: rotate(360deg);
+    transform: rotate(360deg) translateZ(0);
   }
 }
+
 /*
 Pure CSS Shooting Star Animation Effect Copyright (c) 2021 by Delroy Prithvi (https://codepen.io/delroyprithvi/pen/LYyJROR)
 */
@@ -550,10 +529,13 @@ Pure CSS Shooting Star Animation Effect Copyright (c) 2021 by Delroy Prithvi (ht
   height: 4px;
   background: var(--spice-shooting-star);
   border-radius: 50%;
-  animation: animate 3s linear infinite;
+  animation: animate 3s linear;
   left: initial;
   z-index: 0 !important;
   pointer-events: none;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .shootingstar::before {
@@ -568,7 +550,7 @@ Pure CSS Shooting Star Animation Effect Copyright (c) 2021 by Delroy Prithvi (ht
 
 @keyframes animate {
   0% {
-    transform: rotate(315deg) translateX(0);
+    transform: rotate(315deg) translateX(0) translateZ(0);
     opacity: 1;
   }
 
@@ -577,10 +559,19 @@ Pure CSS Shooting Star Animation Effect Copyright (c) 2021 by Delroy Prithvi (ht
   }
 
   100% {
-    transform: rotate(315deg) translateX(-1500px);
+    transform: rotate(315deg) translateX(-1500px) translateZ(0);
     opacity: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .shootingstar,
+  [data-testid="now-playing-bar"] [data-testid="cover-art-button"] img,
+  .starrynight-bg-container div {
+    animation: none !important;
+  }
+}
+
 .lyrics-lyrics-background {
   background-color: #00000000 !important;
 }
