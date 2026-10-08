@@ -64,51 +64,26 @@ waitForElement(['.Root__top-container'], ([topContainer]) => {
       fragment.appendChild(star);
     }
 
-    // 2. Original Delroy Prithvi shooting stars animation effect
+    // 2. Original Delroy Prithvi shooting stars (Pure GPU infinite compositor - No forced reflows)
     const rawGlow = rs.getPropertyValue('--spice-rgb-shooting-star-glow');
     const shootingStarGlowColor = rawGlow ? `rgba(${rawGlow},0.1)` : 'rgba(255,255,255,0.1)';
+    const shootingConfigs = [
+      { top: '-4px', right: '15%', dur: '5.5s', delay: '0s' },
+      { top: '35%', right: '-4px', dur: '6.5s', delay: '1.8s' },
+      { top: '-4px', right: '65%', dur: '6s', delay: '3.6s' },
+      { top: '20%', right: '-4px', dur: '7s', delay: '5.2s' },
+    ];
 
-    for (let i = 0; i < 4; i++) {
+    shootingConfigs.forEach((cfg) => {
       const shootingstar = document.createElement('span');
       shootingstar.className = 'shootingstar';
-      if (Math.random() < 0.75) {
-        shootingstar.style.top = '-4px';
-        shootingstar.style.right = `${random(0, 90)}%`;
-      } else {
-        shootingstar.style.top = `${random(0, 50)}%`;
-        shootingstar.style.right = '-4px';
-      }
-
+      shootingstar.style.top = cfg.top;
+      shootingstar.style.right = cfg.right;
       shootingstar.style.boxShadow = `0 0 0 4px ${shootingStarGlowColor}, 0 0 0 8px ${shootingStarGlowColor}, 0 0 20px ${shootingStarGlowColor}`;
-
-      const dur = `${Math.floor(Math.random() * 3) + 3}s`;
-      const delay = `${Math.floor(Math.random() * 7)}s`;
-
-      shootingstar.style.setProperty('animation', 'animate 3s linear', 'important');
-      shootingstar.style.setProperty('animation-duration', dur, 'important');
-      shootingstar.style.setProperty('animation-delay', delay, 'important');
-
-      shootingstar.addEventListener('animationend', () => {
-        if (Math.random() < 0.75) {
-          shootingstar.style.top = '-4px';
-          shootingstar.style.right = `${random(0, 90)}%`;
-        } else {
-          shootingstar.style.top = `${random(0, 50)}%`;
-          shootingstar.style.right = '-4px';
-        }
-
-        shootingstar.style.animation = 'none';
-        void shootingstar.offsetWidth;
-        shootingstar.style.setProperty('animation', 'animate 3s linear', 'important');
-        shootingstar.style.setProperty(
-          'animation-duration',
-          `${Math.floor(Math.random() * 4) + 3}s`,
-          'important'
-        );
-      });
-
+      shootingstar.style.setProperty('animation-duration', cfg.dur, 'important');
+      shootingstar.style.setProperty('animation-delay', cfg.delay, 'important');
       fragment.appendChild(shootingstar);
-    }
+    });
 
     backgroundContainer.appendChild(fragment);
   });

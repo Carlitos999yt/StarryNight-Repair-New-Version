@@ -227,6 +227,19 @@ body.starrynight-sidebar-collapsed .Root__top-container,
 
 
 /* Clean, high-performance transparency for main view without scanning child track rows */
+:root,
+.encore-dark-theme,
+.encore-layout-themes {
+  --background-base: transparent !important;
+  --background-elevated-base: transparent !important;
+  --background-elevated-highlight: rgba(255, 255, 255, 0.08) !important;
+  --background-elevated-press: rgba(255, 255, 255, 0.05) !important;
+  --background-highlight: rgba(255, 255, 255, 0.08) !important;
+  --background-press: rgba(255, 255, 255, 0.05) !important;
+  --spice-card: transparent !important;
+  --spice-main-elevated: transparent !important;
+}
+
 .main-view-container,
 .main-view-container__scroll-node,
 .main-view-container__scroll-node-child,
@@ -235,6 +248,9 @@ body.starrynight-sidebar-collapsed .Root__top-container,
 .main-entityHeader-overlay,
 .main-entityHeader-container,
 .main-home-homeHeader,
+[data-testid="home-page"],
+[data-testid="home-page"] > div,
+.main-home-content,
 [data-testid="playlist-page"],
 [data-testid="artist-page"],
 [data-testid="album-page"],
@@ -245,6 +261,60 @@ body.starrynight-sidebar-collapsed .Root__top-container,
   --background-base: transparent !important;
   --background-elevated-base: transparent !important;
   --background-highlight: transparent !important;
+  --spice-card: transparent !important;
+}
+
+/* Home shortcut items & Spotify card transparency */
+.view-homeShortcutsGrid-shortcut,
+.view-homeShortcutsGrid-shortcutContainer,
+.view-homeShortcutsGrid-grid,
+.view-homeShortcutsGrid-shortcuts,
+[data-testid="shortcut-item"],
+.main-card-card,
+.main-card-cardContainer,
+.main-heroCard-card,
+.main-shelf-shelfCard,
+[data-testid="card-click-handler"],
+div:has(> [data-testid="shortcut-item"]) {
+  background-color: transparent !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+.view-homeShortcutsGrid-shortcut:hover,
+[data-testid="shortcut-item"]:hover,
+.main-card-card:hover,
+.main-card-cardContainer:hover,
+.main-heroCard-card:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  transition: background-color 0.2s ease !important;
+}
+
+/* Instant image loading: eliminate opacity fade delays and placeholder shimmer lag */
+.main-image-image,
+.main-cardImage-image,
+.main-trackList-rowImage,
+.cover-art,
+[data-testid="shortcut-item"] img,
+[data-testid="card-image"] img,
+[data-testid="tracklist-row"] img,
+.main-image-loading,
+.main-image-loaded {
+  opacity: 1 !important;
+  transition: none !important;
+  animation: none !important;
+  content-visibility: auto;
+}
+
+.main-cardImage-imageWrapper,
+.main-card-imageContainer,
+.main-trackList-rowImagePlaceholder,
+.main-image-imagePlaceholder,
+.main-trackList-placeholder {
+  background-color: transparent !important;
+  background-image: none !important;
+  animation: none !important;
 }
 
 .main-view-container [role="presentation"]:has([role="columnheader"]) {
@@ -537,7 +607,7 @@ Pure CSS Shooting Star Animation Effect Copyright (c) 2021 by Delroy Prithvi (ht
   height: 4px;
   background: var(--spice-shooting-star);
   border-radius: 50%;
-  animation: animate 3s linear;
+  animation: animate 6s linear infinite;
   left: initial;
   z-index: 0 !important;
   pointer-events: none;
@@ -562,11 +632,11 @@ Pure CSS Shooting Star Animation Effect Copyright (c) 2021 by Delroy Prithvi (ht
     opacity: 1;
   }
 
-  70% {
+  50% {
     opacity: 1;
   }
 
-  100% {
+  70%, 100% {
     transform: rotate(315deg) translateX(-1500px) translateZ(0);
     opacity: 0;
   }
