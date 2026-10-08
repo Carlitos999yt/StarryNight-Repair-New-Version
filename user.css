@@ -238,6 +238,7 @@ body.starrynight-sidebar-collapsed .Root__top-container,
   --background-press: rgba(255, 255, 255, 0.05) !important;
   --spice-card: transparent !important;
   --spice-main-elevated: transparent !important;
+  --bgColor: transparent !important;
 }
 
 .main-view-container,
@@ -245,8 +246,16 @@ body.starrynight-sidebar-collapsed .Root__top-container,
 .main-view-container__scroll-node-child,
 .main-actionBarBackground-background,
 .main-entityHeader-backgroundColor,
+.main-entityHeader-background,
 .main-entityHeader-overlay,
 .main-entityHeader-container,
+.main-entityHeader-headerText,
+.under-main-view,
+[data-testid="entityHeader"],
+[data-testid="action-bar-background"],
+div:has(> .main-entityHeader-container),
+.main-entityHeader-background.main-entityHeader-gradient,
+.main-entityHeader-background.main-entityHeader-overlay,
 .main-home-homeHeader,
 [data-testid="home-page"],
 [data-testid="home-page"] > div,
@@ -255,13 +264,36 @@ body.starrynight-sidebar-collapsed .Root__top-container,
 [data-testid="artist-page"],
 [data-testid="album-page"],
 [data-testid="playlist-page"] > div,
+[data-testid="album-page"] > div,
 [data-testid="artist-page"] > div {
+  background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
   --background-base: transparent !important;
   --background-elevated-base: transparent !important;
   --background-highlight: transparent !important;
   --spice-card: transparent !important;
+  --bgColor: transparent !important;
+}
+
+/* Dynamic extracted album color variable and inline style overrides (eliminates red/colored solid banners) */
+[style*="--bgColor"],
+[style*="--background-base"] {
+  --bgColor: transparent !important;
+  --background-base: transparent !important;
+  background-color: transparent !important;
+}
+
+.main-view-container [style*="background-color"]:not([role="row"]):not([role="row"] *):not(.e-10860-legacy-box):not(.e-10860-legacy-box *),
+.main-view-container [style*="background:"]:not([role="row"]):not([role="row"] *):not(.e-10860-legacy-box):not(.e-10860-legacy-box *) {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+.Root__top-container [style*="--background-base"]:not([role="row"]):not([role="row"] *):not(.e-10860-legacy-box):not(.e-10860-legacy-box *),
+.Root__top-container [style*="--background-base"]:not([role="row"]):not([role="row"] *):not(.e-10860-legacy-box):not(.e-10860-legacy-box *)::after {
+  background-color: transparent !important;
+  background-image: none !important;
 }
 
 /* Home shortcut items & Spotify card transparency */
@@ -270,12 +302,14 @@ body.starrynight-sidebar-collapsed .Root__top-container,
 .view-homeShortcutsGrid-grid,
 .view-homeShortcutsGrid-shortcuts,
 [data-testid="shortcut-item"],
+.view-homeShortcutsGrid-shortcut[style*="background"],
+[data-testid="shortcut-item"][style*="background"],
+div:has(> [data-testid="shortcut-item"]),
 .main-card-card,
 .main-card-cardContainer,
 .main-heroCard-card,
 .main-shelf-shelfCard,
-[data-testid="card-click-handler"],
-div:has(> [data-testid="shortcut-item"]) {
+[data-testid="card-click-handler"] {
   background-color: transparent !important;
   background: transparent !important;
   background-image: none !important;
@@ -286,7 +320,9 @@ div:has(> [data-testid="shortcut-item"]) {
 [data-testid="shortcut-item"]:hover,
 .main-card-card:hover,
 .main-card-cardContainer:hover,
-.main-heroCard-card:hover {
+.main-heroCard-card:hover,
+.view-homeShortcutsGrid-shortcut[style*="background"]:hover,
+[data-testid="shortcut-item"][style*="background"]:hover {
   background-color: rgba(255, 255, 255, 0.08) !important;
   transition: background-color 0.2s ease !important;
 }
@@ -374,7 +410,8 @@ div:has(> [data-testid="shortcut-item"]) {
   justify-content: space-evenly;
 }
 
-.starrynight-bg-container {
+.starrynight-bg-container,
+.starrynight-canvas {
   position: fixed;
   z-index: 0;
   pointer-events: none;
@@ -384,10 +421,7 @@ div:has(> [data-testid="shortcut-item"]) {
   left: 0;
   background-color: transparent;
   overflow: hidden;
-  contain: strict;
   transform: translateZ(0);
-  will-change: transform;
-  backface-visibility: hidden;
 }
 
 .starrynight-bg-container div {
