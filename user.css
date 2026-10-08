@@ -31,10 +31,15 @@
 }
 
 .main-topBar-container,
-.main-topBar-background {
+.main-topBar-background,
+.main-topBar-overlay,
+.Root__top-bar,
+[data-testid="topbar"] {
   background-color: transparent !important;
+  background: transparent !important;
   --background-base: transparent !important;
 }
+
 
 .Root__top-container > :has(.main-view-container) {
   background-color: transparent !important;
@@ -253,12 +258,10 @@ body.starrynight-sidebar-collapsed .Root__top-container,
 .under-main-view,
 [data-testid="entityHeader"],
 [data-testid="action-bar-background"],
-div:has(> .main-entityHeader-container),
 .main-entityHeader-background.main-entityHeader-gradient,
 .main-entityHeader-background.main-entityHeader-overlay,
 .main-home-homeHeader,
 [data-testid="home-page"],
-[data-testid="home-page"] > div,
 .main-home-content,
 [data-testid="playlist-page"],
 [data-testid="artist-page"],
@@ -276,22 +279,14 @@ div:has(> .main-entityHeader-container),
   --bgColor: transparent !important;
 }
 
-/* Dynamic extracted album color variable and inline style overrides (eliminates red/colored solid banners) */
-[style*="--bgColor"],
-[style*="--background-base"] {
+/* Dynamic extracted album color variable overrides (eliminates red/colored solid banners) */
+[style*="--bgColor"] {
   --bgColor: transparent !important;
-  --background-base: transparent !important;
   background-color: transparent !important;
 }
 
-.main-view-container [style*="background-color"]:not([role="row"]):not([role="row"] *):not(.e-10860-legacy-box):not(.e-10860-legacy-box *),
-.main-view-container [style*="background:"]:not([role="row"]):not([role="row"] *):not(.e-10860-legacy-box):not(.e-10860-legacy-box *) {
-  background-color: transparent !important;
-  background-image: none !important;
-}
-
-.Root__top-container [style*="--background-base"]:not([role="row"]):not([role="row"] *):not(.e-10860-legacy-box):not(.e-10860-legacy-box *),
-.Root__top-container [style*="--background-base"]:not([role="row"]):not([role="row"] *):not(.e-10860-legacy-box):not(.e-10860-legacy-box *)::after {
+.Root__top-container [style*="--background-base"]:not(.e-10860-legacy-box):not(.e-10860-legacy-box *),
+.Root__top-container [style*="--background-base"]:not(.e-10860-legacy-box):not(.e-10860-legacy-box *)::after {
   background-color: transparent !important;
   background-image: none !important;
 }
@@ -302,9 +297,6 @@ div:has(> .main-entityHeader-container),
 .view-homeShortcutsGrid-grid,
 .view-homeShortcutsGrid-shortcuts,
 [data-testid="shortcut-item"],
-.view-homeShortcutsGrid-shortcut[style*="background"],
-[data-testid="shortcut-item"][style*="background"],
-div:has(> [data-testid="shortcut-item"]),
 .main-card-card,
 .main-card-cardContainer,
 .main-heroCard-card,
@@ -320,37 +312,9 @@ div:has(> [data-testid="shortcut-item"]),
 [data-testid="shortcut-item"]:hover,
 .main-card-card:hover,
 .main-card-cardContainer:hover,
-.main-heroCard-card:hover,
-.view-homeShortcutsGrid-shortcut[style*="background"]:hover,
-[data-testid="shortcut-item"][style*="background"]:hover {
+.main-heroCard-card:hover {
   background-color: rgba(255, 255, 255, 0.08) !important;
   transition: background-color 0.2s ease !important;
-}
-
-/* Instant image loading: eliminate opacity fade delays and placeholder shimmer lag */
-.main-image-image,
-.main-cardImage-image,
-.main-trackList-rowImage,
-.cover-art,
-[data-testid="shortcut-item"] img,
-[data-testid="card-image"] img,
-[data-testid="tracklist-row"] img,
-.main-image-loading,
-.main-image-loaded {
-  opacity: 1 !important;
-  transition: none !important;
-  animation: none !important;
-  content-visibility: auto;
-}
-
-.main-cardImage-imageWrapper,
-.main-card-imageContainer,
-.main-trackList-rowImagePlaceholder,
-.main-image-imagePlaceholder,
-.main-trackList-placeholder {
-  background-color: transparent !important;
-  background-image: none !important;
-  animation: none !important;
 }
 
 .main-view-container [role="presentation"]:has([role="columnheader"]) {
@@ -361,13 +325,13 @@ div:has(> [data-testid="shortcut-item"]),
 
 /* Optimize tracklist virtualized rows for instant rendering and smooth scrolling */
 [role="row"] {
-  contain: layout style;
   background-color: transparent !important;
 }
 
 [role="row"]:hover {
   background-color: rgba(255, 255, 255, 0.08) !important;
 }
+
 
 /* Now playing bar container sizing & height */
 .main-nowPlayingBar-nowPlayingBar {
