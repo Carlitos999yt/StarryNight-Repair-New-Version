@@ -15,131 +15,85 @@ waitForElement(['.Root__top-container'], ([topContainer]) => {
   const r = document.documentElement;
   const rs = window.getComputedStyle(r);
 
-  // 1. Single Ultra-High-Performance Hardware-Accelerated Canvas Starfield
-  // (Replaces 120 separate animating DOM nodes with 1 flat GPU canvas texture)
-  let canvas = document.querySelector('.starrynight-canvas');
-  if (!canvas) {
-    canvas = document.createElement('canvas');
-    canvas.className = 'starrynight-canvas';
-    topContainer.appendChild(canvas);
+  // Clean up any canvas if present
+  const oldCanvas = document.querySelector('.starrynight-canvas');
+  if (oldCanvas) oldCanvas.remove();
+
+  // Background container
+  let backgroundContainer = document.querySelector('.starrynight-bg-container');
+  if (!backgroundContainer) {
+    backgroundContainer = document.createElement('div');
+    backgroundContainer.className = 'starrynight-bg-container';
+    topContainer.appendChild(backgroundContainer);
+  } else {
+    backgroundContainer.innerHTML = '';
   }
 
-  // Remove any legacy DOM star containers if present
-  const oldBg = document.querySelector('.starrynight-bg-container');
-  if (oldBg) oldBg.remove();
+  const rootElement = document.querySelector('.Root__top-container');
+  if (rootElement) {
+    rootElement.style.zIndex = '0';
+  }
 
-  const ctx = canvas.getContext('2d');
-  let width = (canvas.width = window.innerWidth);
-  let height = (canvas.height = window.innerHeight);
-
-  let resizeTimeout;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-      initStars();
-    }, 100);
-  });
-
+  // 1. Original Delroy Prithvi Starry Sky with Full Star Density
+  // (Rendered using DocumentFragment for instant zero-lag DOM insertion)
+  const fragment = document.createDocumentFragment();
   const starColor = rs.getPropertyValue('--spice-star') || '#ffffff';
-  let stars = [];
+  const canvasSize =
+    (backgroundContainer.clientWidth && backgroundContainer.clientHeight)
+      ? backgroundContainer.clientWidth * backgroundContainer.clientHeight
+      : window.innerWidth * window.innerHeight;
 
-  function initStars() {
-    stars = [];
-    const count = Math.min(Math.floor((width * height) / 16000), 95);
-    for (let i = 0; i < count; i++) {
-      stars.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        size: Math.random() < 0.65 ? 1 : 2,
-        baseAlpha: random(0.25, 0.85),
-        twinkleSpeed: random(0.02, 0.05),
-        twinkleOffset: Math.random() * Math.PI * 2,
-        hasGlow: Math.random() < 0.2,
-      });
+  // Full original star density (~350 to 500 stars across the entire sky)
+  const starsFraction = Math.floor(canvasSize / 4200);
+
+  for (let i = 0; i < starsFraction; i++) {
+    const size = Math.random() < 0.55 ? 1 : 2;
+
+    const star = document.createElement('div');
+    star.style.position = 'absolute';
+    star.style.left = `${random(0, 99.5)}%`;
+    star.style.top = `${random(0, 99.5)}%`;
+    star.style.opacity = random(0.4, 1);
+    star.style.width = `${size}px`;
+    star.style.height = `${size}px`;
+    star.style.backgroundColor = starColor;
+    star.style.zIndex = '-1';
+    star.style.borderRadius = '50%';
+
+    // Original Delroy Prithvi twinkling animation with glowing pulse
+    if (Math.random() < 0.28) {
+      star.style.setProperty(
+        'animation',
+        `twinkle${Math.floor(Math.random() * 4) + 1} ${Math.floor(Math.random() * 3) + 4}s infinite ease-in-out`,
+        'important'
+      );
     }
-  }
-  initStars();
 
-  // 2. Pure Canvas Shooting Stars (Delroy Prithvi effect - 0 DOM reflows)
-  const shootingStars = [
-    { x: 0, y: 0, length: 220, speed: 20, active: false, timer: 40 },
-    { x: 0, y: 0, length: 260, speed: 24, active: false, timer: 160 },
-    { x: 0, y: 0, length: 190, speed: 17, active: false, timer: 280 },
+    fragment.appendChild(star);
+  }
+
+  // 2. Original Delroy Prithvi Shooting Stars (Continuous Pure CSS Infinite Loop)
+  const rawGlow = rs.getPropertyValue('--spice-rgb-shooting-star-glow');
+  const shootingStarGlowColor = rawGlow ? `rgba(${rawGlow},0.15)` : 'rgba(255,255,255,0.15)';
+  const shootingConfigs = [
+    { top: '-4px', right: '15%', dur: '4s', delay: '0s' },
+    { top: '30%', right: '-4px', dur: '4.5s', delay: '1.2s' },
+    { top: '-4px', right: '60%', dur: '5s', delay: '2.5s' },
+    { top: '45%', right: '-4px', dur: '4.2s', delay: '3.8s' },
   ];
 
-  function resetShootingStar(s) {
-    s.x = random(width * 0.25, width * 1.05);
-    s.y = random(-40, height * 0.35);
-    s.active = true;
-    s.timer = Math.floor(random(160, 360));
-  }
+  shootingConfigs.forEach((cfg) => {
+    const shootingstar = document.createElement('span');
+    shootingstar.className = 'shootingstar';
+    shootingstar.style.top = cfg.top;
+    shootingstar.style.right = cfg.right;
+    shootingstar.style.boxShadow = `0 0 0 4px ${shootingStarGlowColor}, 0 0 0 8px ${shootingStarGlowColor}, 0 0 20px ${shootingStarGlowColor}`;
+    shootingstar.style.setProperty('animation-duration', cfg.dur, 'important');
+    shootingstar.style.setProperty('animation-delay', cfg.delay, 'important');
+    fragment.appendChild(shootingstar);
+  });
 
-  let animFrameId = null;
-
-  function render(time) {
-    // If Spotify is minimized or hidden, sleep the animation loop (0% CPU usage)
-    if (document.hidden) {
-      animFrameId = requestAnimationFrame(render);
-      return;
-    }
-
-    ctx.clearRect(0, 0, width, height);
-
-    // Render twinkling stars
-    for (let i = 0; i < stars.length; i++) {
-      const s = stars[i];
-      const a = s.baseAlpha + Math.sin(time * 0.002 * s.twinkleSpeed * 50 + s.twinkleOffset) * 0.35;
-      const alpha = Math.max(0.1, Math.min(1, a));
-
-      ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-      ctx.fillRect(s.x, s.y, s.size, s.size);
-
-      if (s.hasGlow && alpha > 0.6) {
-        ctx.fillStyle = `rgba(255, 255, 255, ${(alpha - 0.5) * 0.35})`;
-        ctx.fillRect(s.x - 1, s.y - 1, s.size + 2, s.size + 2);
-      }
-    }
-
-    // Render shooting stars
-    for (let i = 0; i < shootingStars.length; i++) {
-      const ss = shootingStars[i];
-      if (!ss.active) {
-        ss.timer--;
-        if (ss.timer <= 0) {
-          resetShootingStar(ss);
-        }
-        continue;
-      }
-
-      ss.x -= ss.speed;
-      ss.y += ss.speed * 0.7;
-
-      const tailX = ss.x + ss.length;
-      const tailY = ss.y - ss.length * 0.7;
-
-      const grad = ctx.createLinearGradient(ss.x, ss.y, tailX, tailY);
-      grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
-      grad.addColorStop(0.2, 'rgba(255, 255, 255, 0.75)');
-      grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-
-      ctx.beginPath();
-      ctx.strokeStyle = grad;
-      ctx.lineWidth = 1.8;
-      ctx.moveTo(ss.x, ss.y);
-      ctx.lineTo(tailX, tailY);
-      ctx.stroke();
-
-      if (ss.x < -ss.length || ss.y > height + ss.length) {
-        ss.active = false;
-      }
-    }
-
-    animFrameId = requestAnimationFrame(render);
-  }
-
-  animFrameId = requestAnimationFrame(render);
+  backgroundContainer.appendChild(fragment);
 
   // 3. Resize and collapse observer: when right sidebar collapses, collapse top playbar too!
   const setupResizeObserver = () => {

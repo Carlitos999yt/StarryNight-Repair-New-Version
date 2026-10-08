@@ -410,8 +410,7 @@ div:has(> [data-testid="shortcut-item"]),
   justify-content: space-evenly;
 }
 
-.starrynight-bg-container,
-.starrynight-canvas {
+.starrynight-bg-container {
   position: fixed;
   z-index: 0;
   pointer-events: none;
@@ -421,6 +420,7 @@ div:has(> [data-testid="shortcut-item"]),
   left: 0;
   background-color: transparent;
   overflow: hidden;
+  contain: strict;
   transform: translateZ(0);
 }
 
@@ -578,48 +578,64 @@ body.starrynight-is-playing [data-testid="now-playing-bar"] [data-testid="cover-
   outline: none !important;
 }
 
-/* GPU-Accelerated Twinkling Keyframes (No CPU box-shadow reflows) */
+/* Original Delroy Prithvi Twinkling Keyframes with Glowing Pulse */
 @keyframes twinkle1 {
   0%, 100% {
-    opacity: 0.95;
-    transform: scale(1) translateZ(0);
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+    opacity: 1;
   }
-  50% {
-    opacity: 0.2;
-    transform: scale(0.65) translateZ(0);
+  20%, 80% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+    opacity: 0.9;
+  }
+  40%, 60% {
+    box-shadow: 0px 0px 0px 0px var(--spice-star-glow);
+    opacity: 0.25;
   }
 }
 
 @keyframes twinkle2 {
   0%, 100% {
+    box-shadow: 0px 0px 0px 0px var(--spice-star-glow);
     opacity: 0.25;
-    transform: scale(0.6) translateZ(0);
   }
-  50% {
+  20%, 80% {
+    box-shadow: 0px 0px 0px 0px var(--spice-star-glow);
+    opacity: 0.3;
+  }
+  40%, 60% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
     opacity: 1;
-    transform: scale(1.15) translateZ(0);
   }
 }
 
 @keyframes twinkle3 {
   0%, 100% {
-    opacity: 0.85;
-    transform: scale(1) translateZ(0);
+    box-shadow: 0px 0px 0px 0px var(--spice-star-glow);
+    opacity: 0.2;
   }
   40% {
-    opacity: 0.15;
-    transform: scale(0.5) translateZ(0);
+    box-shadow: 0px 0px 0px 0px var(--spice-star-glow);
+    opacity: 0.25;
+  }
+  80% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+    opacity: 1;
   }
 }
 
 @keyframes twinkle4 {
   0%, 100% {
+    box-shadow: 0px 0px 0px 0px var(--spice-star-glow);
     opacity: 0.2;
-    transform: scale(0.55) translateZ(0);
   }
-  60% {
-    opacity: 0.95;
-    transform: scale(1.2) translateZ(0);
+  20% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+    opacity: 1;
+  }
+  40%, 80% {
+    box-shadow: 0px 0px 0px 0px var(--spice-star-glow);
+    opacity: 0.25;
   }
 }
 
