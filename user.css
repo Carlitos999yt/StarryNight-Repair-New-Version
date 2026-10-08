@@ -424,7 +424,13 @@ div:has(> [data-testid="shortcut-item"]),
   transform: translateZ(0);
 }
 
-.starrynight-bg-container div {
+.starrynight-bg-container div,
+.starrynight-star {
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  pointer-events: none;
+  background-color: var(--spice-star, #ffffff);
   will-change: transform, opacity;
   transform: translateZ(0);
   backface-visibility: hidden;

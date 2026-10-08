@@ -48,27 +48,18 @@ waitForElement(['.Root__top-container'], ([topContainer]) => {
 
   for (let i = 0; i < starsFraction; i++) {
     const size = Math.random() < 0.55 ? 1 : 2;
-
     const star = document.createElement('div');
-    star.style.position = 'absolute';
-    star.style.left = `${random(0, 99.5)}%`;
-    star.style.top = `${random(0, 99.5)}%`;
-    star.style.opacity = random(0.4, 1);
-    star.style.width = `${size}px`;
-    star.style.height = `${size}px`;
-    star.style.backgroundColor = starColor;
-    star.style.zIndex = '-1';
-    star.style.borderRadius = '50%';
-
-    // Original Delroy Prithvi twinkling animation with glowing pulse
+    star.className = 'starrynight-star';
+    const left = (Math.random() * 99.5).toFixed(2);
+    const top = (Math.random() * 99.5).toFixed(2);
+    const opacity = (random(0.4, 1)).toFixed(2);
+    let css = `left:${left}%;top:${top}%;width:${size}px;height:${size}px;opacity:${opacity};`;
     if (Math.random() < 0.28) {
-      star.style.setProperty(
-        'animation',
-        `twinkle${Math.floor(Math.random() * 4) + 1} ${Math.floor(Math.random() * 3) + 4}s infinite ease-in-out`,
-        'important'
-      );
+      const twId = Math.floor(Math.random() * 4) + 1;
+      const twDur = Math.floor(Math.random() * 3) + 4;
+      css += `animation:twinkle${twId} ${twDur}s infinite ease-in-out !important;`;
     }
-
+    star.style.cssText = css;
     fragment.appendChild(star);
   }
 
