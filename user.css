@@ -241,6 +241,12 @@ body.starrynight-sidebar-collapsed .Root__top-container,
   --background-elevated-press: rgba(255, 255, 255, 0.05) !important;
   --background-highlight: rgba(255, 255, 255, 0.08) !important;
   --background-press: rgba(255, 255, 255, 0.05) !important;
+  --background-tinted-base: transparent !important;
+  --background-tinted-highlight: rgba(255, 255, 255, 0.08) !important;
+  --background-tinted-press: rgba(255, 255, 255, 0.05) !important;
+  --background-base-high-contrast: transparent !important;
+  --background-base-70: transparent !important;
+  --background-base-20: transparent !important;
   --spice-card: transparent !important;
   --spice-main-elevated: transparent !important;
   --bgColor: transparent !important;
@@ -291,12 +297,55 @@ body.starrynight-sidebar-collapsed .Root__top-container,
   background-image: none !important;
 }
 
+/* Home header, chips row & gradient backdrops transparency (eliminates dark grey box behind chips and shortcuts) */
+.kflHPd1wGLg8GjJjmpc6,
+.goKxWei7aIJdA857U744,
+.goKxWei7aIJdA857U744::after,
+.goKxWei7aIJdA857U744.cthJwTHIkmtEcnCP_Oov:after,
+.B8RHlWvcQhk8maUWuKHp,
+.JNjhVnc811Df_eyMFjWZ,
+.UVYctYdrqLPPR8ju42cQ,
+.np7mxVwUxpwaaTFCwM7W,
+.zXqXzwcHMwRbVP7gxcgT,
+.TzE_RD_FEONBYNCJKtqI,
+.qVFKr8VBRzx3iJDS1SnQ,
+.qVFKr8VBRzx3iJDS1SnQ:hover,
+.qVFKr8VBRzx3iJDS1SnQ:focus,
+.qVFKr8VBRzx3iJDS1SnQ:focus-visible,
+.qVFKr8VBRzx3iJDS1SnQ:active {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* Album, playlist & artist top header gradient banners (eliminates top banners when selecting albums) */
+.skbiXj4RSA0QAr5xDn9P,
+.IA4iGG9XYovF8ZeEsq8A,
+.NG0KBybUCTo8_SxXHF3N,
+.NG0KBybUCTo8_SxXHF3N:after,
+.dlCd0Cz0sESYGOnuo02M:after,
+.yvYdZyDIc9bukbMMn5Qe:after,
+.tuAXGNfbMqXQYM0DyRo2:after,
+.bsggd52vUKQhBMor5JE6,
+.mcs7IFDZ0UmZNBok1U6K,
+.kqoat5gYq_URtKt4TBMa,
+.KiLYXau_zZC4Y6HztjLZ {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
 /* Home shortcut items & Spotify card transparency */
+.x0Tk9K1tu0sFwdD5iNF5,
+.x0Tk9K1tu0sFwdD5iNF5 .NUiqbKHNgjojKGdhEu1c,
+.Tdp4VkHTFCXm8OKqt2xw,
+.mpXpsL8sGx7xHzYAb5X7,
 .view-homeShortcutsGrid-shortcut,
 .view-homeShortcutsGrid-shortcutContainer,
 .view-homeShortcutsGrid-grid,
 .view-homeShortcutsGrid-shortcuts,
 [data-testid="shortcut-item"],
+[data-testid="shortcut-background"],
 .main-card-card,
 .main-card-cardContainer,
 .main-heroCard-card,
@@ -308,6 +357,9 @@ body.starrynight-sidebar-collapsed .Root__top-container,
   box-shadow: none !important;
 }
 
+.x0Tk9K1tu0sFwdD5iNF5:hover,
+.x0Tk9K1tu0sFwdD5iNF5:focus-within,
+.x0Tk9K1tu0sFwdD5iNF5[data-context-menu-open="true"],
 .view-homeShortcutsGrid-shortcut:hover,
 [data-testid="shortcut-item"]:hover,
 .main-card-card:hover,
@@ -316,6 +368,7 @@ body.starrynight-sidebar-collapsed .Root__top-container,
   background-color: rgba(255, 255, 255, 0.08) !important;
   transition: background-color 0.2s ease !important;
 }
+
 
 .main-view-container [role="presentation"]:has([role="columnheader"]) {
   background: transparent !important;
