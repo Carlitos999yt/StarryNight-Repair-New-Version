@@ -6,7 +6,7 @@
   "usercss": "user.css",
   "schemes": "color.ini",
   "include": [
-    "theme.js"
+    "https://raw.githubusercontent.com/Carlitos999yt/StarryNight-Repair-New-Version/main/theme.js"
   ],
   "authors": [
     {
