@@ -226,31 +226,41 @@ body.starrynight-sidebar-collapsed .Root__top-container,
 }
 
 
-.main-view-container
-  [style*="background-color"]:not([style*="--"]):not(.e-10860-legacy-box):not(
-    .e-10860-legacy-box *
-  ) {
+/* Clean, high-performance transparency for main view without scanning child track rows */
+.main-view-container,
+.main-view-container__scroll-node,
+.main-view-container__scroll-node-child,
+.main-actionBarBackground-background,
+.main-entityHeader-backgroundColor,
+.main-entityHeader-overlay,
+.main-entityHeader-container,
+.main-home-homeHeader,
+[data-testid="playlist-page"],
+[data-testid="artist-page"],
+[data-testid="album-page"],
+[data-testid="playlist-page"] > div,
+[data-testid="artist-page"] > div {
   background-color: transparent !important;
   background-image: none !important;
+  --background-base: transparent !important;
+  --background-elevated-base: transparent !important;
+  --background-highlight: transparent !important;
 }
 
-.main-view-container [style*="top: 64px"],
 .main-view-container [role="presentation"]:has([role="columnheader"]) {
   background: transparent !important;
   border-bottom-color: transparent !important;
   box-shadow: none !important;
 }
 
-.Root__top-container
-  [style*="--background-base"]:not(.e-10860-legacy-box):not(
-    .e-10860-legacy-box *
-  ),
-.Root__top-container
-  [style*="--background-base"]:not(.e-10860-legacy-box):not(
-    .e-10860-legacy-box *
-  )::after {
+/* Optimize tracklist virtualized rows for instant rendering and smooth scrolling */
+[role="row"] {
+  contain: layout style;
   background-color: transparent !important;
-  background-image: none !important;
+}
+
+[role="row"]:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
 }
 
 /* Now playing bar container sizing & height */
@@ -316,9 +326,7 @@ body.starrynight-sidebar-collapsed .Root__top-container,
   backface-visibility: hidden;
 }
 
-.main-view-container {
-  contain: paint;
-}
+
 
 [data-testid="now-playing-bar"] {
   min-height: max(450px, var(--starrynight-panel-width, 420px));

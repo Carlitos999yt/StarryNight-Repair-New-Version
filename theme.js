@@ -36,7 +36,7 @@ waitForElement(['.Root__top-container'], ([topContainer]) => {
     const starColor = rs.getPropertyValue('--spice-star') || '#ffffff';
     const canvasSize =
       backgroundContainer.clientWidth * backgroundContainer.clientHeight || 1920000;
-    const starsFraction = Math.min(Math.floor(canvasSize / 4500), 320);
+    const starsFraction = Math.min(Math.floor(canvasSize / 15000), 120);
 
     for (let i = 0; i < starsFraction; i++) {
       const size = Math.random() < 0.5 ? 1 : 2;
